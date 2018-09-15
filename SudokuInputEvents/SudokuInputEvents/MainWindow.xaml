@@ -1,0 +1,1266 @@
+﻿<Window x:Class="Sudoku.MainWindow"
+        MouseRightButtonDown="Sudoku_MouseRightButtonDown"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Sudoku"
+        mc:Ignorable="d"
+        Title="MainWindow"
+        Height="600"
+        Width="800">
+    <DockPanel>
+        <StackPanel Background="Red"
+                    DockPanel.Dock="Top">
+            <TextBlock Foreground="White"
+                       FontSize="48"
+                       HorizontalAlignment="Center">
+                Sudoku</TextBlock>
+        </StackPanel>
+        <StackPanel Background="Green"
+                    DockPanel.Dock="Left">
+            <Expander IsExpanded="True"
+                      Width="120"
+                      Foreground="White"
+                      Header="Menu">
+                <StackPanel Orientation="Vertical">
+                    <Button Background="LightGray"
+                            Width="100"
+                            Padding="10,10,10,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="10"
+                            Click="newGameButtonClicked">New Game</Button>
+                    <Button Background="LightGray"
+                            Width="100"
+                            Padding="5,10,10,5"
+                            Margin="10">Hint</Button>
+                    <Button Background="LightGray"
+                            Width="100"
+                            Padding="5,10,10,5"
+                            Margin="10">Solve</Button>
+                    <Button Background="LightGray"
+                            Width="100"
+                            Padding="5,10,10,5"
+                            Margin="10">Check for Errors</Button>
+                    <Button Background="LightGray"
+                            Padding="5,10,10,5"
+                            Margin="9"
+                            Click="QuitClicked">
+                        <TextBlock><Underline>Q</Underline>uit</TextBlock>
+                    </Button>
+                </StackPanel>
+            </Expander>
+        </StackPanel>
+        <StackPanel Background="Blue"
+                    DockPanel.Dock="Right">
+            <Expander IsExpanded="False"
+                      Width="120"
+                      Foreground="White"
+                      Header="Place Holder">
+                <WrapPanel Orientation="Vertical">
+                    <Button Background="LightGray"
+                            Width="100"
+                            Padding="10,10,10,5"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Margin="10">Gray Button</Button>
+                    <Button Background="LightGray"
+                            Width="100"
+                            Padding="5,10,10,5"
+                            Margin="10">Gray Button</Button>
+                    <Button Background="LightGray"
+                            Width="100"
+                            Padding="5,10,10,5"
+                            Margin="10">Gray Button</Button>
+                    <Button Background="LightGray"
+                            Width="100"
+                            Padding="5,10,10,5"
+                            Margin="10">Gray Button</Button>
+                    <Button Background="LightGray"
+                            Padding="5,10,10,5"
+                            Margin="10">Gray Button</Button>
+                </WrapPanel>
+            </Expander>
+        </StackPanel>
+        <Grid Background="Black"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Stretch">
+            <Grid.Resources>
+                <SolidColorBrush x:Key="Brush"
+                                 Color="Black" />
+                <SolidColorBrush x:Key="Brush1"
+                                 Color="DarkGray" />
+            </Grid.Resources>
+            <!-- Define 3 rows-->
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <!-- Define 3 columns -->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Border BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid00">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Upper Left Corner, (0,0) - (2,2)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box00}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box01}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box02}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box10}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box11}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box12}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box20}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box21}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box22}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+            <Border Grid.Row="1"
+                    BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid10">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Middle Left (0,3) - (2,5)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box30}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box40}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box50}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box31}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box41}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box51}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box32}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box42}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box52}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+            <Border Grid.Row="2"
+                    BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid20">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Lower Left Corner, (0,6) - (2,8)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box60}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box70}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box80}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box61}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box71}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box81}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box62}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box72}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box82}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+            <Border Grid.Column="1"
+                    Grid.Row="0"
+                    BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid01">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Upper Middle, (3,0) - (5,2)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box03}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box13}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box23}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box04}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box14}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box24}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box05}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box15}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box25}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+            <Border Grid.Row="1"
+                    Grid.Column="1"
+                    BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid11">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Middle, (3,3) - (5,5)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box33}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box43}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box53}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box34}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box44}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box54}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box35}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box45}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box55}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+            <Border Grid.Column="1"
+                    Grid.Row="2"
+                    BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid21">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Bottom Middle, (3,6) - (5,8)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box63}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box73}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box83}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box64}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box74}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box84}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box65}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box75}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box85}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+            <Border Grid.Column="2"
+                    Grid.Row="0"
+                    BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid02">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Upper Right Corner, (6,0) - (8,2)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box06}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box16}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box26}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box07}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box17}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box27}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box08}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box18}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box28}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+            <Border Grid.Column="2"
+                    Grid.Row="1"
+                    BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid12">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Middle Right, (6,3) - (8,5)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box36}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box46}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box56}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box37}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box47}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box57}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box38}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box48}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box58}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+            <Border Grid.Column="2"
+                    Grid.Row="2"
+                    BorderBrush="{StaticResource Brush1}"
+                    BorderThickness="6">
+                <Grid Background="White"
+                      x:Name="Grid22">
+                    <!-- Define 3 inner rows-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <!-- Define 3 inner columns -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!-- Lower Right Corner, (6,6) - (8,8)-->
+                    <Border Grid.Column="0"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box66}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box76}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="0"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="2,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box86}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box67}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box77}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="1"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,1,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box87}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="0"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,2,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box68}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="1"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,1">
+                        <Button FontSize="28"
+                                Content="{Binding Box78}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                    <Border Grid.Column="2"
+                            Grid.Row="2"
+                            BorderBrush="{StaticResource Brush}"
+                            BorderThickness="1,1,2,2">
+                        <Button FontSize="28"
+                                Content="{Binding Box88}"
+                                Click="gameButtonClicked"
+                                VerticalContentAlignment="Center"
+                                HorizontalContentAlignment="Center"
+                                Background="White"
+                                Foreground="Blue" />
+                    </Border>
+                </Grid>
+            </Border>
+        </Grid>
+    </DockPanel>
+</Window>
