@@ -138,8 +138,8 @@ namespace Sudoku
             // if Random location is != false, find another random location
             do
             {
-                randRow = rnd.Next(1, 10);
-                randCol = rnd.Next(1, 10);
+                randRow = rnd.Next(1, 9);
+                randCol = rnd.Next(1, 9);
             } while (picked[randRow, randCol] != false);
 
             // set its picked value to true
@@ -150,14 +150,8 @@ namespace Sudoku
             //  so the player cannot change that button again.
 
             // String hintBox = "Box" + randRow.toString() + randCol.toString;
-            //String hintBox = "Box" + "1" + "1";
+           
             //button = (Button)this.Controls(hintBox);
-
-
-
-
-
-
 
         }
 

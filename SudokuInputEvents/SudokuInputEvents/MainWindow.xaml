@@ -4,11 +4,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Sudoku"
+        xmlns:local="clr-namespace:SudokuInputEvents"
         mc:Ignorable="d"
         Title="MainWindow"
         Height="600"
         Width="800">
+    <Window.DataContext>
+        <local:MainViewModel />
+    </Window.DataContext>
     <DockPanel>
         <StackPanel Background="Red"
                     DockPanel.Dock="Top">
@@ -126,24 +129,26 @@
                             BorderBrush="{StaticResource Brush}"
                             BorderThickness="2,2,1,1">
                         <Button FontSize="28"
-                                Content="{Binding Box00}"
-                                Click="gameButtonClicked"
+                                DataContext="{Binding Buttons[0]}"
+                                Content="{Binding Value}"
+                                Command="{Binding ChangeValue}"
                                 VerticalContentAlignment="Center"
                                 HorizontalContentAlignment="Center"
                                 Background="White"
-                                Foreground="Blue" />
+                                Foreground="{Binding ButtonColor}"/>
                     </Border>
                     <Border Grid.Column="0"
                             Grid.Row="1"
                             BorderBrush="{StaticResource Brush}"
                             BorderThickness="2,1,1,1">
                         <Button FontSize="28"
-                                Content="{Binding Box01}"
-                                Click="gameButtonClicked"
+                                DataContext="{Binding Buttons[1]}"
+                                Content="{Binding Value}"
+                                Command="{Binding ChangeValue}"
                                 VerticalContentAlignment="Center"
                                 HorizontalContentAlignment="Center"
                                 Background="White"
-                                Foreground="Blue" />
+                                Foreground="{Binding ButtonColor}" />
                     </Border>
                     <Border Grid.Column="0"
                             Grid.Row="2"
