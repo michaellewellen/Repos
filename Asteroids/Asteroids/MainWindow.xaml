@@ -7,16 +7,33 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="800" Width="800" Background="Black">
     <Window.DataContext>
-        <local:AsteroidViewModel />
+        <local:MainModelView />
     </Window.DataContext>
     <Canvas>
-        <Button
-               DataContext="{Binding rock}"
-                Command="{Binding ChangeValue}"
-               Height="{Binding RoidHeight}"
+        <Image DataContext="{Binding RockObject[0]}"
+               Height="{Binding Height}"
                Canvas.Left="{Binding XCoordinate}"
-               Canvas.Top="{Binding YCoordinate}" >
-               <Image Source = "Asteroid.png"/>
-               </Button>
+               Canvas.Top="{Binding YCoordinate}"
+               Source="Asteroid.png" />
+        <Image DataContext="{Binding RockObject[1]}"
+               Height="{Binding Height}"
+               Canvas.Left="{Binding XCoordinate}"
+               Canvas.Top="{Binding YCoordinate}"
+               Source="Asteroid.png" />
+        <Image DataContext="{Binding RockObject[2]}"
+               Height="{Binding Height}"
+               Canvas.Left="{Binding XCoordinate}"
+               Canvas.Top="{Binding YCoordinate}"
+               Source="Asteroid.png" />
+        <Image DataContext="{Binding RockObject[3]}"
+               Height="{Binding Height}"
+               Canvas.Left="{Binding XCoordinate}"
+               Canvas.Top="{Binding YCoordinate}"
+               Source="Asteroid.png" />
+        <Image DataContext="{Binding RockObject[4]}"
+               Height="{Binding Height}"
+               Canvas.Left="{Binding XCoordinate}"
+               Canvas.Top="{Binding YCoordinate}"
+               Source="Asteroid.png" />
     </Canvas>
 </Window>

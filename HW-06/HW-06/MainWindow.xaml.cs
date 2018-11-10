@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Asteroids
+namespace HW_06
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -23,8 +23,12 @@ namespace Asteroids
         public MainWindow()
         {
             InitializeComponent();
-
         }
 
+        private void CalendarChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var VM = (MortgageViewModel)DataContext;
+            VM.CalendarChanged(e.OriginalSource);
+        }
     }
 }

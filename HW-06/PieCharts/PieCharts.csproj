@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2EBC90C8-6868-405F-8B93-ACEDDE039F68}</ProjectGuid>
+    <ProjectGuid>{C1375F6A-CDF9-4CD8-8ABB-95933AA5666B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>Asteroids</RootNamespace>
-    <AssemblyName>Asteroids</AssemblyName>
+    <RootNamespace>PieCharts</RootNamespace>
+    <AssemblyName>PieCharts</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -55,8 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Rock.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="SimplePieChart.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -64,9 +63,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainModelView.cs" />
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="SimplePieChart.xaml.cs">
+      <DependentUpon>SimplePieChart.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -97,7 +95,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Asteroid.png" />
+    <ProjectReference Include="..\HW-06\HW-06.csproj">
+      <Project>{44e66294-b53d-445f-ae83-d05ff208c735}</Project>
+      <Name>HW-06</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
